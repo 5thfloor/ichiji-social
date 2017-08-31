@@ -18,14 +18,15 @@ ja:
       gifv: GIFVや短い動画にも対応
       privacy: 投稿ごとに公開範囲を細かく設定可能
       public: 公開タイムライン
+    features_headline: Mastodon の特徴
     how_to_use:
       offer: 作品紹介・創作企画はどしどしどうぞ！
       art_introduction: 作品紹介は「#作品紹介」を付けてトゥート！
-        feature: 「作品紹介」専用タイムラインが近日中に実装予定！
+      art_introduction_feature: 「作品紹介」専用タイムラインが近日中に実装予定！
       self_introduction: 作り手自身の紹介は「#自己紹介」を付けてトゥート！
-        feature: 「作り手自己紹介」専用タイムラインが近日中に実装予定！
+      self_introduction_feature: 「作り手自己紹介」専用タイムラインが近日中に実装予定！
       attention: 公序良俗、サービス趣旨に反すると運営が判断した場合は、告知を行わず利用を停止する場合があります。予めご了承ください。
-    features_headline: Mastodon の特徴
+    how_to_use_headline: ichiji.socialの使い方・注意点
     get_started: 参加する
     links: リンク
     other_instances: 他のインスタンス
