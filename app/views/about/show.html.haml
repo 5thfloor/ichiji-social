@@ -9,6 +9,7 @@
   %meta{ property: 'og:url', content: about_url }/
   %meta{ property: 'og:type', content: 'website' }/
   %meta{ property: 'og:title', content: site_hostname }/
+  %meta{ property: 'og:description', content: strip_tags(@instance_presenter.site_description.presence)}/
   %meta{ property: 'og:image', content: asset_pack_path('mastodon_small.jpg', protocol: :request) }/
   %meta{ property: 'og:image:width', content: '400' }/
   %meta{ property: 'og:image:height', content: '400' }/
@@ -22,6 +23,22 @@
   - unless @instance_presenter.site_description.blank?
     %h3= t('about.description_headline', domain: site_hostname)
     %p!= @instance_presenter.site_description
+
+  .screenshot-with-signup
+    - if @instance_presenter.open_registrations
+      = render 'registration'
+    - else
+      .closed-registrations-message
+        - if @instance_presenter.closed_registrations_message.blank?
+          %p= t('about.closed_registrations')
+        - else
+          != @instance_presenter.closed_registrations_message
+        .info
+          = link_to t('auth.login'), new_user_session_path, class: 'webapp-btn'
+          ·
+          = link_to t('about.other_instances'), 'https://github.com/tootsuite/documentation/blob/master/Using-Mastodon/List-of-Mastodon-instances.md'
+          ·
+          = link_to t('about.about_this'), about_more_path
 
   %h3= t('about.how_to_use_headline')
 
@@ -78,24 +95,6 @@
         %li
           = fa_icon('li check-square')
           = t 'about.features.api'
-
-
-  .screenshot-with-signup
-    - if @instance_presenter.open_registrations
-      = render 'registration'
-    - else
-      .closed-registrations-message
-        - if @instance_presenter.closed_registrations_message.blank?
-          %p= t('about.closed_registrations')
-        - else
-          != @instance_presenter.closed_registrations_message
-        .info
-          = link_to t('auth.login'), new_user_session_path, class: 'webapp-btn'
-          ·
-          = link_to t('about.other_instances'), 'https://github.com/tootsuite/documentation/blob/master/Using-Mastodon/List-of-Mastodon-instances.md'
-          ·
-          = link_to t('about.about_this'), about_more_path
-
   .actions
     .info
       = link_to t('about.terms'), terms_path
@@ -108,5 +107,5 @@
 
   
   .company-logo
-    %a{href:'http://www.5thfloor.co.jp/'}
+    %a{href:'http://www.5thfloor.co.jp/', target:'_blank'}
       = image_tag asset_pack_path('5thfloor.png')
