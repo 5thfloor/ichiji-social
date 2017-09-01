@@ -1,4 +1,6 @@
 .about-body {
+  padding-bottom: 0 !important;
+
   .wrapper {
     max-width: 600px;
     margin: 0 auto;
@@ -47,7 +49,6 @@
   ul,
   ol {
     list-style: inherit;
-    margin-left: 20px;
 
     &[type='a'] {
       list-style-type: lower-alpha;
@@ -58,8 +59,7 @@
     }
   }
 
-  li > ol,
-  li > ul {
+  li > ol {
     margin-top: 20px;
   }
 
@@ -320,28 +320,15 @@
 
 .screenshot-with-signup {
   display: flex;
+  justify-content: center;
   margin-bottom: 20px;
-
-  .mascot {
-    flex: 1 1 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-
-    img {
-      display: block;
-      margin: 0 auto;
-      max-width: 100%;
-      height: auto;
-    }
-  }
 
   .simple_form,
   .closed-registrations-message {
     width: 300px;
     flex: 0 0 auto;
-    background: rgba(darken($ui-base-color, 7%), 0.5);
+    background: white;
+    margin: 20px;
     padding: 14px;
     border-radius: 4px;
     box-shadow: 0 0 15px rgba($base-shadow-color, 0.4);
@@ -350,12 +337,11 @@
       margin-bottom: 0;
     }
 
+    input {
+      color: black;
+    }
     .info {
       text-align: center;
-
-      a {
-        color: $ui-secondary-color;
-      }
     }
   }
 
@@ -377,4 +363,15 @@
   align-items: center;
   justify-content: center;
   text-align: center;
+}
+
+.company-logo {
+  padding-top: 100px;
+  display: flex;
+  justify-content: center;
+
+  a {
+    width: 300px;
+    flex: 0 0 auto;
+  }
 }
