@@ -46,6 +46,9 @@ export default class GettingStarted extends ImmutablePureComponent {
 
     let navItems = [];
 
+    navItems.push(<ColumnLink key='8' icon='hashtag' text='自己紹介' to='/timelines/tag/自己紹介' />);
+    navItems.push(<ColumnLink key='9' icon='tag' text='作品紹介' to='/timelines/tag/作品紹介' />);
+
     if (multiColumn) {
       if (!columns.find(item => item.get('id') === 'HOME')) {
         navItems.push(<ColumnLink key='0' icon='home' text={intl.formatMessage(messages.home_timeline)} to='/timelines/home' />);
