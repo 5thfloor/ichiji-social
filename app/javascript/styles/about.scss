@@ -293,6 +293,11 @@
         position: relative;
         z-index: 4;
         padding-bottom: 150px;
+        max-width: 500px;
+
+        small {
+          color: #EEEEEE
+        }
       }
 
       .simple_form,
@@ -700,6 +705,17 @@
       height: 70vh;
       width: 100%;
       margin-bottom: 50px;
+    }
+  }
+  .company-logo {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    display: flex;
+    justify-content: center;
+
+    a {
+      width: 300px;
+      flex: 0 0 auto;
     }
   }
 }

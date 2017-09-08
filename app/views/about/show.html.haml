@@ -47,6 +47,7 @@
           %h1
             = @instance_presenter.site_title
             %small= t 'about.hosted_on', domain: site_hostname
+            %small= t 'about.hosted_on_next', domain: site_hostname
         - if @instance_presenter.open_registrations
           = render 'registration'
         - else
@@ -73,8 +74,7 @@
         %p= t 'about.about_mastodon_html'
         %a.button.button-secondary{ href: 'https://joinmastodon.org/' }= t 'about.learn_more'
         = render 'features'
-  .footer-links
-    .container
-      %p
-        = link_to t('about.source_code'), @instance_presenter.source_url
-        = " (#{@instance_presenter.version_number})"
+
+  .company-logo
+    %a{href:'http://www.5thfloor.co.jp/', target:'_blank'}
+      = image_tag asset_pack_path('5thfloor.png')

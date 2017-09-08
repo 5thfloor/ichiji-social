@@ -24,7 +24,8 @@ ja:
       within_reach_title: いつでも身近に
     find_another_instance: 他のインスタンスを探す
     generic_description: "%{domain} は、Mastodon インスタンスの一つです。"
-    hosted_on: Mastodon hosted on %{domain}
+    hosted_on: 「ichiji.social」は、創作を愛するすべての人のためのSNS。
+    hosted_on_next: 一次創作をする絵描きさん・物書きさんの「作り手」たちと、一次創作が好きな「読み手」たちが繋がるためのMastodonインスタンスです。
     learn_more: もっと詳しく
     other_instances: 他のインスタンス
     source_code: ソースコード
