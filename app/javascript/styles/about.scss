@@ -293,6 +293,7 @@
         position: relative;
         z-index: 4;
         padding-bottom: 150px;
+        padding-right: .5em;
         max-width: 500px;
 
         small {
@@ -707,6 +708,7 @@
       margin-bottom: 50px;
     }
   }
+
   .company-logo {
     padding-top: 50px;
     padding-bottom: 50px;
@@ -716,6 +718,16 @@
     a {
       width: 300px;
       flex: 0 0 auto;
+    }
+  }
+
+  .howtos {
+    list-style: none;
+    margin-left: 0;
+
+    li:before {
+      font-family: FontAwesome;
+      content: "\f14a ";
     }
   }
 }

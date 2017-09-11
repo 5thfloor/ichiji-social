@@ -46,8 +46,7 @@
         .heading
           %h1
             = @instance_presenter.site_title
-            %small= t 'about.hosted_on', domain: site_hostname
-            %small= t 'about.hosted_on_next', domain: site_hostname
+            %small= @instance_presenter.site_description.html_safe.presence || t('about.generic_description', domain: site_hostname)
         - if @instance_presenter.open_registrations
           = render 'registration'
         - else
@@ -61,8 +60,10 @@
 
   .about-short
     .container
-      %h3= t('about.description_headline', domain: site_hostname)
-      %p= @instance_presenter.site_description.html_safe.presence || t('about.generic_description', domain: site_hostname)
+      %h3= t('about.howto', domain: @instance_presenter.site_title.presence || site_hostname)
+      %ul.howtos
+        - t('about.howtos').each do |item|
+          %li= item
 
   .features
     .container
