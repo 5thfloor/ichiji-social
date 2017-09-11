@@ -1,0 +1,1 @@
+0       2       *       *       *      cd /mastodon && /mastodon/bin/bundle exec rake mastodon:daily
