@@ -1,3 +1,4 @@
+
 import React from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import PropTypes from 'prop-types';
@@ -104,6 +105,21 @@ export default class Status extends ImmutablePureComponent {
         <div>
           {status.getIn(['account', 'display_name']) || status.getIn(['account', 'username'])}
           {status.get('content')}
+        </div>
+      );
+    }
+
+    if (this.props.displayPinned && status.get('pinned')) {
+      const { displayPinned, intersectionObserverWrapper, ...otherProps } = this.props;
+
+      return (
+        <div className='status__wrapper pinned' ref={this.handleRef} data-id={status.get('id')} >
+          <div className='status__prepend'>
+            <div className='status__prepend-icon-wrapper'><i className='fa fa-fw fa-thumb-tack status__prepend-icon' /></div>
+            <FormattedMessage id='status.pinned' defaultMessage='Pinned Toot' className='status__display-name muted' />
+          </div>
+
+          <Status {...otherProps} />
         </div>
       );
     }

@@ -98,6 +98,7 @@ export const refreshCommunityTimeline    = () => refreshTimeline('community', '/
 export const refreshAccountTimeline      = accountId => refreshTimeline(`account:${accountId}`, `/api/v1/accounts/${accountId}/statuses`);
 export const refreshAccountMediaTimeline = accountId => refreshTimeline(`account:${accountId}:media`, `/api/v1/accounts/${accountId}/statuses`, { only_media: true });
 export const refreshHashtagTimeline      = hashtag => refreshTimeline(`hashtag:${hashtag}`, `/api/v1/timelines/tag/${hashtag}`);
+export const refreshPinnedStatusTimeline = accountId => refreshTimeline(`account:${accountId}:pinned_status`, `/api/v1/accounts/${accountId}/statuses?pinned=true`);
 
 export function refreshTimelineFail(timeline, error, skipLoading) {
   return {
