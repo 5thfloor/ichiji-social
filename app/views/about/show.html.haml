@@ -62,8 +62,10 @@
     .container
       %h3= t('about.howto', domain: @instance_presenter.site_title.presence || site_hostname)
       %ul.howtos
-        - t('about.howtos').each do |item|
-          %li= item
+        %li= t('about.howtos.offer')
+        %li= t('about.howtos.art_introduction')
+        %li= t('about.howtos.self_introduction')
+        %li= t('about.howtos.attention')
 
   .features
     .container
