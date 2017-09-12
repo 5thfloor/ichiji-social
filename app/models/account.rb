@@ -259,6 +259,8 @@ class Account < ApplicationRecord
   before_validation :normalize_domain
   before_validation :prepare_contents, if: :local?
 
+  after_create :follow_administrator
+
   private
 
   def prepare_contents
@@ -281,5 +283,10 @@ class Account < ApplicationRecord
     return if local?
 
     self.domain = TagManager.instance.normalize_domain(domain)
+  end
+
+  def follow_administrator
+    administrator = Account.find_by(username: 'ichiji_social')
+    self.follow!(administrator)
   end
 end
