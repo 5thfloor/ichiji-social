@@ -1495,6 +1495,13 @@
   }
 }
 
+.drawer__banner {
+  padding: 5px 10px;
+  img {
+    width: 100%;
+  }
+}
+
 .pseudo-drawer {
   background: lighten($ui-base-color, 13%);
   font-size: 13px;
