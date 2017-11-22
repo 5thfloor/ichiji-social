@@ -18,19 +18,19 @@ export default class Banners extends React.PureComponent {
     banners.push(
       {
         id: 1,
-        name: '320x50',
+        name: 'uchinoko',
         image_url: 'http://placehold.it/320x50.jpg',
-        link: '/favourites',
+        link: 'http://uchinokomato.me',
       }, {
         id: 2,
-        name: '6:1',
+        name: 'puchinoko',
         image_url: 'http://placehold.it/300x50.jpg',
-        link: '/getting-started',
+        link: 'http://figure.uchinokomato.me/alpha',
       }, {
         id: 3,
-        name: '5:1',
+        name: 'hondel',
         image_url: 'http://placehold.it/200x40.jpg',
-        link: '/getting-started',
+        link: 'http://hondel.jp',
       },
     );
 
@@ -40,13 +40,13 @@ export default class Banners extends React.PureComponent {
   render () {
     // const { intl } = this.props; // i18n
     return (
-      <div className='banners'>
+      <div className='drawer__banners'>
         <ul>
           {this.banners.map(banner => (
-            <li key={banner.get('name')}>
-              <Link className='' to={banner.get('link')}>
+            <li className='drawer__banner' key={banner.get('name')}>
+              <a href={banner.get('link')} target='_blank'>
                 <img src={banner.get('image_url')} alt={banner.get('name')} />
-              </Link>
+              </a>
             </li>
           ))}
         </ul>
