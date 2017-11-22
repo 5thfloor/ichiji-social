@@ -12,7 +12,7 @@ import Motion from 'react-motion/lib/Motion';
 import spring from 'react-motion/lib/spring';
 import SearchResultsContainer from './containers/search_results_container';
 import { changeComposing } from '../../actions/compose';
-import Banner from './components/banner';
+import Banners from './components/banners';
 
 const messages = defineMessages({
   start: { id: 'getting_started.heading', defaultMessage: 'Getting started' },
@@ -95,7 +95,7 @@ export default class Compose extends React.PureComponent {
           <div className='drawer__inner' onFocus={this.onFocus}>
             <NavigationContainer onClose={this.onBlur} />
             <ComposeFormContainer />
-            <Banner imgSrc='http://placehold.it/320x50.jpg' linkUrl='/favourites' />
+            <Banners />
           </div>
 
           <Motion defaultStyle={{ x: -100 }} style={{ x: spring(showSearch ? 0 : -100, { stiffness: 210, damping: 20 }) }}>
