@@ -1,0 +1,30 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: cron
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: cron
+        serial: "20171208002"
+    spec:
+      containers:
+      - name: cron
+        image: gcr.io/the5thfloorinc/mastodon:production
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: env-production
+        volumeMounts:
+        - mountPath: /etc/crontabs
+          name: cron-root
+          readOnly: true
+        command:
+        - crond
+        - -f
+      volumes:
+      - name: cron-root
+        configMap:
+          name: cron-root

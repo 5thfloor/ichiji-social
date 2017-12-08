@@ -1,0 +1,20 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: sidekiq
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: sidekiq
+        serial: "20171208002"
+    spec:
+      containers:
+      - name: web
+        image: gcr.io/the5thfloorinc/mastodon:production
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: env-production
+        command: ["bundle", "exec", "sidekiq", "-q", "default", "-q", "mailers", "-q", "pull", "-q", "push"]

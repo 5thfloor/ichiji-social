@@ -1,0 +1,153 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: frontend
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: frontend
+        # FIXME: To apply changes forcibly
+        serial: "20171208002"
+      annotations:
+        # NOTE: Keep this be same as .spec.initContainers (by hand!).
+        # TODO: Remove this when we upgrade Kubernetes to 1.8.
+        pod.beta.kubernetes.io/init-containers: '[
+          {
+            "name": "db-migration",
+            "image": "gcr.io/the5thfloorinc/mastodon:production",
+            "imagePullPolicy": "Always",
+            "envFrom": [
+              {"configMapRef": {"name": "env-production"}}
+            ],
+            "command": ["sh", "-c", "rails db:migrate"]
+          },
+          {
+            "name": "assets-precompile",
+            "image": "gcr.io/the5thfloorinc/mastodon:production",
+            "imagePullPolicy": "Always",
+            "envFrom": [
+              {"configMapRef": {"name": "env-production"}}
+            ],
+            "volumeMounts": [
+              {
+                "name": "mastodon-disk-assets",
+                "mountPath": "/mastodon/public/assets"
+              },
+              {
+                "name": "mastodon-disk-packs",
+                "mountPath": "/mastodon/public/packs"
+              },
+              {
+                "name": "mastodon-disk-system",
+                "mountPath": "/mastodon/public/system"
+              }
+            ],
+            "command": ["sh", "-c", "rails assets:precompile"]
+          }
+        ]'
+
+    spec:
+      initContainers:
+      - name: db-migration
+        image: gcr.io/the5thfloorinc/mastodon:production
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: env-production
+        command: ["sh", "-c", "rails db:migrate"]
+      - name: assets-precompile
+        image: gcr.io/the5thfloorinc/mastodon:production
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: env-production
+        volumeMounts:
+        - name: mastodon-disk-assets
+          mountPath: /mastodon/public/assets
+        - name: mastodon-disk-packs
+          mountPath: /mastodon/public/packs
+        - name: mastodon-disk-system
+          mountPath: /mastodon/public/system
+        command: ["sh", "-c", "rails assets:precompile"]
+
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+          - containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+          initialDelaySeconds: 5
+          timeoutSeconds: 1
+        volumeMounts:
+        - mountPath: /etc/nginx/conf.d
+          name: nginx-config
+          readOnly: true
+        - mountPath: /public
+          name: public-volume
+          readOnly: true
+
+      - name: web
+        image: gcr.io/the5thfloorinc/mastodon:production
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: env-production
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - name: mastodon-disk-assets
+          mountPath: /mastodon/public/assets
+        - name: mastodon-disk-packs
+          mountPath: /mastodon/public/packs
+        - name: mastodon-disk-system
+          mountPath: /mastodon/public/system
+        command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
+
+      - name: streeming
+        image: gcr.io/the5thfloorinc/mastodon:production
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: env-production
+        ports:
+        - containerPort: 4000
+        command: ["npm", "run", "start"]
+
+      volumes:
+      - name: mastodon-disk-assets
+        emptyDir: {}
+      - name: mastodon-disk-system
+        emptyDir: {}
+      - name: mastodon-disk-packs
+        emptyDir: {}
+      - name: nginx-config
+        configMap:
+          name: nginx-config
+      - name: public-volume
+        hostPath:
+          path: /tmp/public
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend
+  labels:
+    app: frontend
+  annotations:
+    service.beta.kubernetes.io/external-traffic: OnlyLocal
+spec:
+  type: NodePort
+  ports:
+  - name: http
+    port: 80
+    targetPort: 80
+  selector:
+    app: frontend
