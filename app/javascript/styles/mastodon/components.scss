@@ -1634,6 +1634,18 @@
   }
 }
 
+.drawer__banners {
+  background: lighten($ui-base-color, 13%);
+}
+
+.drawer__banner {
+  padding: 10px;
+  line-height: 0;
+  img {
+    width: 100%;
+  }
+}
+
 .pseudo-drawer {
   background: lighten($ui-base-color, 13%);
   font-size: 13px;
