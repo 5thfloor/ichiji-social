@@ -3,6 +3,7 @@ import Immutable from 'immutable';
 import Link from 'react-router-dom/Link';
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
+import hondelBanner from '../../../../images/hondel_banner.png'
 
 @injectIntl
 export default class Banners extends React.PureComponent {
@@ -14,24 +15,13 @@ export default class Banners extends React.PureComponent {
   componentWillMount () {
     const banners = [];
 
-    // tmp
     banners.push(
       {
         id: 1,
-        name: 'uchinoko',
-        image_url: 'http://placehold.it/320x50.jpg',
-        link: 'http://uchinokomato.me',
-      }, {
-        id: 2,
-        name: 'puchinoko',
-        image_url: 'http://placehold.it/300x50.jpg',
-        link: 'http://figure.uchinokomato.me/alpha',
-      }, {
-        id: 3,
         name: 'hondel',
-        image_url: 'http://placehold.it/200x40.jpg',
-        link: 'http://hondel.jp',
-      },
+        image_url: hondelBanner,
+        link: 'https://hondel.jp/?utm_source=hondel&utm_medium=banner&utm_campaign=ichijisicial',
+      }
     );
 
     this.banners = Immutable.fromJS(banners);
