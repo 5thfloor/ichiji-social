@@ -8,6 +8,7 @@ spec:
     metadata:
       labels:
         app: cron
+        serial: "20171208002"
     spec:
       containers:
       - name: cron

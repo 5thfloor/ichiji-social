@@ -10,6 +10,8 @@ spec:
     metadata:
       labels:
         app: frontend
+        # FIXME: To apply changes forcibly
+        serial: "20171208002"
       annotations:
         # NOTE: Keep this be same as .spec.initContainers (by hand!).
         # TODO: Remove this when we upgrade Kubernetes to 1.8.
