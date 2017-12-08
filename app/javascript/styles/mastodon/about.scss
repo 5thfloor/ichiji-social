@@ -807,6 +807,28 @@
       }
     }
   }
+
+  .company-logo {
+    padding-top: 50px;
+    padding-bottom: 50px;
+    display: flex;
+    justify-content: center;
+
+    a {
+      width: 300px;
+      flex: 0 0 auto;
+    }
+  }
+
+  .howtos {
+    list-style: none;
+    margin-left: 0;
+
+    li:before {
+      font-family: FontAwesome;
+      content: "\f14a ";
+    }
+  }
 }
 
 @keyframes floating {
