@@ -10,33 +10,67 @@ spec:
     metadata:
       labels:
         app: frontend
-    spec:
-      # NOTE: initContainers doesn't work currently when we use `kubectl apply`
-      # at second time or later. It seems to be a bug...:(
-      # See: https://github.com/kubernetes/kubernetes/issues/47264
+      annotations:
+        # NOTE: Keep this be same as .spec.initContainers (by hand!).
+        # TODO: Remove this when we upgrade Kubernetes to 1.8.
+        pod.beta.kubernetes.io/init-containers: '[
+          {
+            "name": "db-migration",
+            "image": "gcr.io/the5thfloorinc/mastodon:production",
+            "imagePullPolicy": "Always",
+            "envFrom": [
+              {"configMapRef": {"name": "env-production"}}
+            ],
+            "command": ["sh", "-c", "rails db:migrate"]
+          },
+          {
+            "name": "assets-precompile",
+            "image": "gcr.io/the5thfloorinc/mastodon:production",
+            "imagePullPolicy": "Always",
+            "envFrom": [
+              {"configMapRef": {"name": "env-production"}}
+            ],
+            "volumeMounts": [
+              {
+                "name": "mastodon-disk-assets",
+                "mountPath": "/mastodon/public/assets"
+              },
+              {
+                "name": "mastodon-disk-packs",
+                "mountPath": "/mastodon/public/packs"
+              },
+              {
+                "name": "mastodon-disk-system",
+                "mountPath": "/mastodon/public/system"
+              }
+            ],
+            "command": ["sh", "-c", "rails assets:precompile"]
+          }
+        ]'
 
-      # initContainers:
-      # - name: db-migration
-      #   image: gcr.io/the5thfloorinc/mastodon:production
-      #   imagePullPolicy: Always
-      #   envFrom:
-      #   - configMapRef:
-      #       name: env-production
-      #   command: ["sh", "-c", "rails db:migrate"]
-      # - name: assets-precompile
-      #   image: gcr.io/the5thfloorinc/mastodon:production
-      #   imagePullPolicy: Always
-      #   envFrom:
-      #   - configMapRef:
-      #       name: env-production
-      #   volumeMounts:
-      #   - name: mastodon-disk-assets
-      #     mountPath: /mastodon/public/assets
-      #   - name: mastodon-disk-packs
-      #     mountPath: /mastodon/public/packs
-      #   - name: mastodon-disk-system
-      #     mountPath: /mastodon/public/system
-      #   command: ["sh", "-c", "rails assets:precompile"]
+    spec:
+      initContainers:
+      - name: db-migration
+        image: gcr.io/the5thfloorinc/mastodon:production
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: env-production
+        command: ["sh", "-c", "rails db:migrate"]
+      - name: assets-precompile
+        image: gcr.io/the5thfloorinc/mastodon:production
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: env-production
+        volumeMounts:
+        - name: mastodon-disk-assets
+          mountPath: /mastodon/public/assets
+        - name: mastodon-disk-packs
+          mountPath: /mastodon/public/packs
+        - name: mastodon-disk-system
+          mountPath: /mastodon/public/system
+        command: ["sh", "-c", "rails assets:precompile"]
 
       containers:
       - name: nginx
@@ -72,10 +106,7 @@ spec:
           mountPath: /mastodon/public/packs
         - name: mastodon-disk-system
           mountPath: /mastodon/public/system
-        # WARKAROUND!!!: We can't migrate and precompile assets on init
-        # containers by above reason, so we do that manually here... :( :( :(
-        command: ["sh", "-c", "rails db:migrate && rails assets:precompile && bundle exec rails s -p 3000 -b 0.0.0.0"]
-        #command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
+        command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
 
       - name: streeming
         image: gcr.io/the5thfloorinc/mastodon:production
