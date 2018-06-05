@@ -12,6 +12,7 @@ import Motion from '../ui/util/optional_motion';
 import spring from 'react-motion/lib/spring';
 import SearchResultsContainer from './containers/search_results_container';
 import { changeComposing } from '../../actions/compose';
+import elephantUIPlane from '../../../images/elephant_ui_plane.svg';
 import Banners from './components/banners';
 
 const messages = defineMessages({
@@ -24,9 +25,9 @@ const messages = defineMessages({
   logout: { id: 'navigation_bar.logout', defaultMessage: 'Logout' },
 });
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, ownProps) => ({
   columns: state.getIn(['settings', 'columns']),
-  showSearch: state.getIn(['search', 'submitted']) && !state.getIn(['search', 'hidden']),
+  showSearch: ownProps.multiColumn ? state.getIn(['search', 'submitted']) && !state.getIn(['search', 'hidden']) : ownProps.isSearchPage,
 });
 
 @connect(mapStateToProps)
@@ -38,15 +39,24 @@ export default class Compose extends React.PureComponent {
     columns: ImmutablePropTypes.list.isRequired,
     multiColumn: PropTypes.bool,
     showSearch: PropTypes.bool,
+    isSearchPage: PropTypes.bool,
     intl: PropTypes.object.isRequired,
   };
 
   componentDidMount () {
-    this.props.dispatch(mountCompose());
+    const { isSearchPage } = this.props;
+
+    if (!isSearchPage) {
+      this.props.dispatch(mountCompose());
+    }
   }
 
   componentWillUnmount () {
-    this.props.dispatch(unmountCompose());
+    const { isSearchPage } = this.props;
+
+    if (!isSearchPage) {
+      this.props.dispatch(unmountCompose());
+    }
   }
 
   onFocus = () => {
@@ -58,7 +68,7 @@ export default class Compose extends React.PureComponent {
   }
 
   render () {
-    const { multiColumn, showSearch, intl } = this.props;
+    const { multiColumn, showSearch, isSearchPage, intl } = this.props;
 
     let header = '';
 
@@ -89,21 +99,26 @@ export default class Compose extends React.PureComponent {
       <div className='drawer'>
         {header}
 
-        <SearchContainer />
+        {(multiColumn || isSearchPage) && <SearchContainer /> }
 
         <div className='drawer__pager'>
           <div className='drawer__inner' onFocus={this.onFocus}>
             <NavigationContainer onClose={this.onBlur} />
             <ComposeFormContainer />
             <Banners />
+            {multiColumn && (
+              <div className='drawer__inner__mastodon'>
+                <img alt='' draggable='false' src={elephantUIPlane} />
+              </div>
+            )}
           </div>
 
-          <Motion defaultStyle={{ x: -100 }} style={{ x: spring(showSearch ? 0 : -100, { stiffness: 210, damping: 20 }) }}>
-            {({ x }) =>
+          <Motion defaultStyle={{ x: isSearchPage ? 0 : -100 }} style={{ x: spring(showSearch || isSearchPage ? 0 : -100, { stiffness: 210, damping: 20 }) }}>
+            {({ x }) => (
               <div className='drawer__inner darker' style={{ transform: `translateX(${x}%)`, visibility: x === -100 ? 'hidden' : 'visible' }}>
                 <SearchResultsContainer />
               </div>
-            }
+            )}
           </Motion>
         </div>
       </div>
