@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
 import hondelBanner from '../../../../images/hondel_banner.png';
 import makerBanner from '../../../../images/maker_banner.png';
+import ichikuraBanner from '../../../../images/ichikura_banner.png';
+import ichicradioBanner from '../../../../images/ichicradio_banner.png';
 
 @injectIntl
 export default class Banners extends React.PureComponent {
@@ -28,6 +30,18 @@ export default class Banners extends React.PureComponent {
         name: 'puchinoko-maker',
         image_url: makerBanner,
         link: 'https://figure.uchinokomato.me/maker/?utm_source=ichijisicial&utm_medium=banner&utm_campaign=info',
+      },
+      {
+        id: 3,
+        name: 'ichikura',
+        image_url: ichikuraBanner,
+        link: 'http://tomatosumisow.noor.jp/ichikura.html',
+      },
+      {
+        id: 4,
+        name: 'puchicradio',
+        image_url: ichicradioBanner,
+        link: 'https://complementaryparty.wixsite.com/ichiradi',
       },
     );
 
