@@ -81,18 +81,19 @@ export default class GettingStarted extends ImmutablePureComponent {
     let i = 1;
     let height = 0;
 
-    navItems.push(<ColumnLink key='10' icon='vcard-o' text='#自己紹介' to='/timelines/tag/自己紹介' />);
-    navItems.push(<ColumnLink key='11' icon='book' text='#作品紹介' to='/timelines/tag/作品紹介' />);
+
 
     if (multiColumn) {
       navItems.push(
         <ColumnSubheading key={i++} text={intl.formatMessage(messages.discover)} />,
+        <ColumnLink key={i++} icon='vcard-o' text='#自己紹介' to='/timelines/tag/自己紹介' />,
+        <ColumnLink key={i++} icon='book' text='#作品紹介' to='/timelines/tag/作品紹介' />,
         <ColumnLink key={i++} icon='users' text={intl.formatMessage(messages.community_timeline)} to='/timelines/public/local' />,
         <ColumnLink key={i++} icon='globe' text={intl.formatMessage(messages.public_timeline)} to='/timelines/public' />,
         <ColumnSubheading key={i++} text={intl.formatMessage(messages.personal)} />
       );
 
-      height += 34*2 + 48*2;
+      height += 34*2 + 48*4;
     }
 
     navItems.push(
