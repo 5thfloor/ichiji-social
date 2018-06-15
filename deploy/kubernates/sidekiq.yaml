@@ -8,12 +8,16 @@ spec:
     metadata:
       labels:
         app: sidekiq
-        serial: "20171208002"
     spec:
       containers:
       - name: web
         image: gcr.io/the5thfloorinc/mastodon:production
         imagePullPolicy: Always
+        resources:
+          limits:
+            cpu: 500m
+          requests:
+            cpu: 50m
         envFrom:
         - configMapRef:
             name: env-production

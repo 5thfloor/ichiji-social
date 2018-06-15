@@ -10,46 +10,6 @@ spec:
     metadata:
       labels:
         app: frontend
-        # FIXME: To apply changes forcibly
-        serial: "20171208002"
-      annotations:
-        # NOTE: Keep this be same as .spec.initContainers (by hand!).
-        # TODO: Remove this when we upgrade Kubernetes to 1.8.
-        pod.beta.kubernetes.io/init-containers: '[
-          {
-            "name": "db-migration",
-            "image": "gcr.io/the5thfloorinc/mastodon:production",
-            "imagePullPolicy": "Always",
-            "envFrom": [
-              {"configMapRef": {"name": "env-production"}}
-            ],
-            "command": ["sh", "-c", "rails db:migrate"]
-          },
-          {
-            "name": "assets-precompile",
-            "image": "gcr.io/the5thfloorinc/mastodon:production",
-            "imagePullPolicy": "Always",
-            "envFrom": [
-              {"configMapRef": {"name": "env-production"}}
-            ],
-            "volumeMounts": [
-              {
-                "name": "mastodon-disk-assets",
-                "mountPath": "/mastodon/public/assets"
-              },
-              {
-                "name": "mastodon-disk-packs",
-                "mountPath": "/mastodon/public/packs"
-              },
-              {
-                "name": "mastodon-disk-system",
-                "mountPath": "/mastodon/public/system"
-              }
-            ],
-            "command": ["sh", "-c", "rails assets:precompile"]
-          }
-        ]'
-
     spec:
       initContainers:
       - name: db-migration
@@ -58,33 +18,32 @@ spec:
         envFrom:
         - configMapRef:
             name: env-production
-        command: ["sh", "-c", "rails db:migrate"]
-      - name: assets-precompile
-        image: gcr.io/the5thfloorinc/mastodon:production
-        imagePullPolicy: Always
-        envFrom:
-        - configMapRef:
-            name: env-production
-        volumeMounts:
-        - name: mastodon-disk-assets
-          mountPath: /mastodon/public/assets
-        - name: mastodon-disk-packs
-          mountPath: /mastodon/public/packs
-        - name: mastodon-disk-system
-          mountPath: /mastodon/public/system
-        command: ["sh", "-c", "rails assets:precompile"]
+        command: ["sh", "-c", "bundle exec rails db:migrate"]
 
       containers:
       - name: nginx
         image: nginx
+        resources:
+          requests:
+            cpu: "50m"
         ports:
           - containerPort: 80
         livenessProbe:
-          httpGet:
-            path: /healthz
-            port: 80
+          failureThreshold: 3
           initialDelaySeconds: 5
-          timeoutSeconds: 1
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 80
+          timeoutSeconds: 30
+        readinessProbe:
+          failureThreshold: 3
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          successThreshold: 1
+          tcpSocket:
+            port: 80
+          timeoutSeconds: 30
         volumeMounts:
         - mountPath: /etc/nginx/conf.d
           name: nginx-config
@@ -99,13 +58,12 @@ spec:
         envFrom:
         - configMapRef:
             name: env-production
+        resources:
+          requests:
+            cpu: "80m"
         ports:
         - containerPort: 3000
         volumeMounts:
-        - name: mastodon-disk-assets
-          mountPath: /mastodon/public/assets
-        - name: mastodon-disk-packs
-          mountPath: /mastodon/public/packs
         - name: mastodon-disk-system
           mountPath: /mastodon/public/system
         command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
@@ -116,16 +74,15 @@ spec:
         envFrom:
         - configMapRef:
             name: env-production
+        resources:
+          requests:
+            cpu: "70m"
         ports:
         - containerPort: 4000
         command: ["npm", "run", "start"]
 
       volumes:
-      - name: mastodon-disk-assets
-        emptyDir: {}
       - name: mastodon-disk-system
-        emptyDir: {}
-      - name: mastodon-disk-packs
         emptyDir: {}
       - name: nginx-config
         configMap:
@@ -145,6 +102,7 @@ metadata:
     service.beta.kubernetes.io/external-traffic: OnlyLocal
 spec:
   type: NodePort
+  externalTrafficPolicy: Local
   ports:
   - name: http
     port: 80
