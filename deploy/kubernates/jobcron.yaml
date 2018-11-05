@@ -8,6 +8,7 @@ spec:
     metadata:
       labels:
         app: cron
+        revision: "20180829001"
     spec:
       containers:
       - name: cron
