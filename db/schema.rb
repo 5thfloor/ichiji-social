@@ -510,8 +510,6 @@ ActiveRecord::Schema.define(version: 2018_10_26_034033) do
     t.integer "visibility", default: 0, null: false
     t.text "spoiler_text", default: "", null: false
     t.boolean "reply", default: false, null: false
-    t.integer "favourites_count", default: 0, null: false
-    t.integer "reblogs_count", default: 0, null: false
     t.string "language"
     t.bigint "conversation_id"
     t.boolean "local"
