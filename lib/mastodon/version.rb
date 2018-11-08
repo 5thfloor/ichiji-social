@@ -9,11 +9,11 @@ module Mastodon
     end
 
     def minor
-      4
+      6
     end
 
     def patch
-      4
+      1
     end
 
     def pre
@@ -32,8 +32,12 @@ module Mastodon
       [to_a.join('.'), flags].join
     end
 
+    def repository
+      '5thfloor/ichiji-social'
+    end
+
     def source_base_url
-      'https://github.com/5thfloor/ichiji-social'
+      "https://github.com/#{repository}"
     end
 
     # specify git tag or commit hash here
