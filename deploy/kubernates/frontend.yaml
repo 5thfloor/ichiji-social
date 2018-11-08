@@ -10,7 +10,7 @@ spec:
     metadata:
       labels:
         app: frontend
-        revision: "20180829001"
+        revision: "20181108002"
     spec:
       initContainers:
       - name: db-migration
@@ -80,7 +80,7 @@ spec:
             cpu: "70m"
         ports:
         - containerPort: 4000
-        command: ["npm", "run", "start"]
+        command: ["yarn", "start"]
 
       volumes:
       - name: mastodon-disk-system
