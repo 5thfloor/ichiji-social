@@ -3,12 +3,12 @@ kind: Deployment
 metadata:
   name: sidekiq
 spec:
-  replicas: 1
+  replicas: 4
   template:
     metadata:
       labels:
         app: sidekiq
-        revision: "20181108001"
+        revision: "20190307001"
     spec:
       containers:
       - name: web

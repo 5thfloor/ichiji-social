@@ -3,14 +3,14 @@ kind: Deployment
 metadata:
   name: frontend
 spec:
-  replicas: 3
+  replicas: 4
   strategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
         app: frontend
-        revision: "20181108002"
+        revision: "20190307001"
     spec:
       initContainers:
       - name: db-migration
