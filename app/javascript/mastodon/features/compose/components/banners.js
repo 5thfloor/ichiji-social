@@ -3,6 +3,7 @@ import Immutable from 'immutable';
 import Link from 'react-router-dom/Link';
 import PropTypes from 'prop-types';
 import { injectIntl } from 'react-intl';
+import drillBanner from '../../../../images/drill_banner.png';
 import hondelBanner from '../../../../images/hondel_banner.png';
 import makerBanner from '../../../../images/maker_banner.png';
 import ichikuraBanner from '../../../../images/ichikura_banner.png';
@@ -21,24 +22,30 @@ export default class Banners extends React.PureComponent {
     banners.push(
       {
         id: 1,
+        name: 'drill',
+        image_url: drillBanner,
+        link: 'https://drill.5thfloor.co.jp/',
+      },
+      {
+        id: 2,
         name: 'hondel',
         image_url: hondelBanner,
         link: 'https://hondel.jp/?utm_source=ichijisicial&utm_medium=banner&utm_campaign=info',
       },
       {
-        id: 2,
+        id: 3,
         name: 'puchinoko-maker',
         image_url: makerBanner,
         link: 'https://figure.uchinokomato.me/maker/?utm_source=ichijisicial&utm_medium=banner&utm_campaign=info',
       },
       {
-        id: 3,
+        id: 4,
         name: 'ichikura',
         image_url: ichikuraBanner,
         link: 'http://tomatosumisow.noor.jp/ichikura.html',
       },
       {
-        id: 4,
+        id: 5,
         name: 'puchicradio',
         image_url: ichicradioBanner,
         link: 'https://complementaryparty.wixsite.com/ichiradi',
