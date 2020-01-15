@@ -10,7 +10,7 @@ spec:
     metadata:
       labels:
         app: frontend
-        revision: "20190307001"
+        revision: "20191129001"
     spec:
       initContainers:
       - name: db-migration
