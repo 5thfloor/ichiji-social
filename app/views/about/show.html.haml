@@ -54,10 +54,21 @@
 
         .hero-widget__text
           %p
-            = @instance_presenter.site_short_description.html_safe.presence || t('about.about_mastodon_html')
+            = @instance_presenter.site_description.html_safe.presence || t('about.about_mastodon_html') # CUSTOMIZE
             = link_to about_more_path do
               = t('about.learn_more')
               = fa_icon 'angle-double-right'
+
+        / CUSTOMIZE
+        .hero-widget__content
+          .hero-widget__content__howtos
+            %h4= t 'about.howto', domain: @instance_presenter.site_title.presence || site_hostname
+
+            %ul
+              %li= t 'about.howtos.offer'
+              %li= t 'about.howtos.art_introduction'
+              %li= t 'about.howtos.self_introduction'
+              %li= t 'about.howtos.attention'
 
         .hero-widget__footer
           .hero-widget__footer__column

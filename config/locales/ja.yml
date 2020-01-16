@@ -45,6 +45,12 @@ ja:
       other: 人
     user_count_before: ユーザー数
     what_is_mastodon: Mastodon とは？
+    howto: "%{domain} の使い方・注意点"
+    howtos:
+      offer: 作品紹介・創作企画はどしどしどうぞ！
+      art_introduction: 作品紹介は「#作品紹介」を付けてトゥート！
+      self_introduction: 作り手自身の紹介は「#自己紹介」を付けてトゥート！
+      attention: 公序良俗、サービス趣旨に反すると運営が判断した場合は、告知を行わず利用を停止する場合があります。予めご了承ください。
   accounts:
     choices_html: "%{name} によるおすすめ:"
     endorsements_hint: あなたがフォローしている中でおすすめしたい人をここで紹介できます。

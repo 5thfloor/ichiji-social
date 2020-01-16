@@ -730,6 +730,37 @@ $small-breakpoint: 960px;
       padding-bottom: 0;
     }
 
+    // CUSTOMIZE
+    &__content {
+      background: $ui-base-color;
+      padding: 20px 15px 0;
+
+      &__howtos {
+        background: darken($ui-base-color, 4%);
+        font-size: 14px;
+
+        h4 {
+          padding: 15px;
+          color: $primary-text-color;
+          text-transform: none;
+        }
+
+        ul {
+          padding: 0 15px 15px;
+          color: $darker-text-color;
+
+          li {
+            margin-bottom: .3em;
+
+            &:before {
+              font-family: FontAwesome;
+              content: "\f14a\00a0";
+            }
+          }
+        }
+      }
+    }
+
     &__footer {
       background: $ui-base-color;
       padding: 10px;
