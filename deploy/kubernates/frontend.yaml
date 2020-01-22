@@ -3,14 +3,14 @@ kind: Deployment
 metadata:
   name: frontend
 spec:
-  replicas: 4
+  replicas: 5
   strategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
         app: frontend
-        revision: "20191129001"
+        revision: "20200117001"
     spec:
       initContainers:
       - name: db-migration
@@ -20,6 +20,13 @@ spec:
         - configMapRef:
             name: env-production
         command: ["sh", "-c", "bundle exec rails db:migrate"]
+      - name: cache-clear
+        image: gcr.io/the5thfloorinc/mastodon:production
+        imagePullPolicy: Always
+        envFrom:
+        - configMapRef:
+            name: env-production
+        command: ["sh", "-c", "bin/tootctl cache clear"]
 
       containers:
       - name: nginx
